@@ -38,7 +38,7 @@
             cursor: pointer;
             border: 2px solid rgba(255, 0, 255, 0.4);
             scrollbar-width: thin;
-            animation: bgPulse 1.5s infinite alternate;
+            animation: bgPulse 2.5s infinite alternate;
         }
 
         @keyframes bgPulse {
@@ -312,7 +312,7 @@ eres mi fiesta infinita, mi cielo del infierno.
             bgContainer.innerHTML = "";
             
             // Luces de discoteca (puntos flotantes)
-            for(let i = 0; i < 60; i++) {
+            for(let i = 0; i < 40; i++) {
                 const light = document.createElement("div");
                 light.className = "disco-light";
                 light.style.left = Math.random() * 100 + "%";
