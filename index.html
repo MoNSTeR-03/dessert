@@ -88,7 +88,7 @@
             border-radius: 50%;
             opacity: 0.6;
             animation: discoFlash 1s infinite alternate;
-            box-shadow: 0 0 15px currentColor;
+            box-shadow: 0 0 7px currentColor;
         }
 
         @keyframes discoFlash {
@@ -128,9 +128,16 @@
         }
 
         @keyframes neonPulse {
-            0% { text-shadow: 0 0 5px currentColor; opacity: 0.5; }
-            100% { text-shadow: 0 0 25px currentColor, 0 0 10px; opacity: 1; }
-        }
+    0% {
+        text-shadow: 0 0 4px currentColor;
+        opacity: 0.6;
+    }
+
+    100% {
+        text-shadow: 0 0 10px currentColor;
+        opacity: 1;
+    }
+}
 
         /* elementos clickeables (pistas de DJ, copas, etc) */
         .club-layer {
@@ -341,7 +348,7 @@ eres mi fiesta infinita, mi cielo del infierno.
             bgContainer.innerHTML = "";
             
             // Luces de discoteca (puntos flotantes)
-            for(let i = 0; i < 40; i++) {
+            for(let i = 0; i < 35; i++) {
                 const light = document.createElement("div");
                 light.className = "disco-light";
                 light.style.left = Math.random() * 100 + "%";
