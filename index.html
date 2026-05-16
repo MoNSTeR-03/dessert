@@ -145,23 +145,35 @@
         }
 
         .club-item {
-            pointer-events: auto;
-            cursor: pointer;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(4px);
-            border-radius: 30px;
-            padding: 15px 22px;
-            text-align: center;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255, 0, 255, 0.6);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5), 0 0 20px rgba(255,0,255,0.3);
-            min-width: 120px;
-        }
+    pointer-events: auto;
+    cursor: pointer;
 
-        .club-item:active {
-            transform: scale(0.94);
-            background: rgba(0, 0, 0, 0.9);
-        }
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+
+    border-radius: 30px;
+    padding: 15px 22px;
+    text-align: center;
+
+    transition: transform 0.2s ease, opacity 0.2s ease;
+
+    border: 1px solid rgba(255, 0, 255, 0.6);
+
+    box-shadow:
+        0 6px 14px rgba(0,0,0,0.45),
+        0 0 12px rgba(255,0,255,0.22);
+
+    min-width: 120px;
+
+    transform: translateZ(0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+}
+
+.club-item:active {
+    transform: translateZ(0) scale(0.94);
+    background: rgba(0, 0, 0, 0.9);
+}
 
         .club-emoji {
             font-size: 60px;
