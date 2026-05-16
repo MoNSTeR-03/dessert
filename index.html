@@ -24,22 +24,32 @@
             padding: 12px;
         }
 
-        .club-world {
-            position: relative;
-            width: 1400px;
-            max-width: 100%;
-            height: 90vh;
-            min-height: 620px;
-            background: radial-gradient(ellipse at 30% 40%, #1a0a2e, #0a0a1a, #050510);
-            border-radius: 48px 48px 32px 32px;
-            box-shadow: 0 25px 40px rgba(0,0,0,0.8), inset 0 0 30px rgba(255,0,255,0.1);
-            overflow-y: auto;
-            overflow-x: hidden;
-            cursor: pointer;
-            border: 2px solid rgba(255, 0, 255, 0.4);
-            scrollbar-width: thin;
-            animation: bgPulse 2.5s infinite alternate;
-        }
+       .club-world {
+    position: relative;
+    width: 1400px;
+    max-width: 100%;
+    height: 90vh;
+    min-height: 620px;
+    background: radial-gradient(ellipse at 30% 40%, #1a0a2e, #0a0a1a, #050510);
+    border-radius: 48px 48px 32px 32px;
+
+    box-shadow: 0 15px 25px rgba(0,0,0,0.7),
+                inset 0 0 15px rgba(255,0,255,0.08);
+
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+    contain: content;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    cursor: pointer;
+    border: 2px solid rgba(255, 0, 255, 0.4);
+    scrollbar-width: thin;
+
+    animation: bgPulse 2.5s infinite alternate;
+}
 
         @keyframes bgPulse {
             0% { box-shadow: 0 0 20px rgba(255,0,255,0.2), inset 0 0 10px rgba(255,0,255,0.1); }
@@ -82,9 +92,16 @@
         }
 
         @keyframes discoFlash {
-            0% { opacity: 0.2; transform: scale(0.8); }
-            100% { opacity: 0.9; transform: scale(1.4); }
-        }
+    0% {
+        opacity: 0.35;
+        transform: translateZ(0) scale(0.95);
+    }
+
+    100% {
+        opacity: 0.85;
+        transform: translateZ(0) scale(1.15);
+    }
+}
 
         .neon-line {
             position: absolute;
