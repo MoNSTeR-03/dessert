@@ -38,8 +38,7 @@
             cursor: pointer;
             border: 2px solid rgba(255, 0, 255, 0.4);
             scrollbar-width: thin;
-            animation: bgPulse 0.5s infinite alternate;
-            will-change: box-shadow;
+            animation: bgPulse 1.5s infinite alternate;
         }
 
         @keyframes bgPulse {
@@ -47,59 +46,83 @@
             100% { box-shadow: 0 0 50px rgba(255,0,200,0.5), inset 0 0 30px rgba(255,0,200,0.2); }
         }
 
+        /* Fondo discoteca */
         .club-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            min-height: 100%;
-            z-index: 1;
-            pointer-events: none;
-            overflow: hidden;
-        }
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+    contain: layout style paint;
+}
 
-        /* Luces optimizadas - solo 25 */
+.disco-light,
+.ryoko-neon,
+.neon-line,
+.club-item,
+.club-world {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+        /* Luces de discoteca */
         .disco-light {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, #ff00ff, #00ffff);
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #ff00ff, #00ffff, #ffff00);
             border-radius: 50%;
-            animation: discoFlash 0.8s infinite alternate;
-            will-change: opacity, transform;
+            opacity: 0.6;
+            animation: discoFlash 1s infinite alternate;
+            box-shadow: 0 0 15px currentColor;
         }
 
         @keyframes discoFlash {
-            0% { opacity: 0.3; transform: scale(0.9); }
-            100% { opacity: 0.9; transform: scale(1.3); }
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 0.9; transform: scale(1.4); }
         }
 
-        /* RYOKO neon - menos textos pero más grandes y visibles */
+        .neon-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
+            animation: neonMove 3s infinite linear;
+        }
+
+        @keyframes neonMove {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        /* RYOKO textos locos en neon */
         .ryoko-neon {
             position: absolute;
             font-weight: bold;
             white-space: nowrap;
             pointer-events: none;
-            animation: neonPulse 1.2s infinite alternate;
+            animation: neonPulse 1.5s infinite alternate;
             text-shadow: 0 0 5px currentColor;
             font-family: 'Impact', 'Arial Black', sans-serif;
-            letter-spacing: 3px;
-            will-change: text-shadow, opacity;
+            letter-spacing: 4px;
         }
 
         @keyframes neonPulse {
-            0% { text-shadow: 0 0 3px currentColor; opacity: 0.6; }
-            100% { text-shadow: 0 0 20px currentColor; opacity: 1; }
+            0% { text-shadow: 0 0 5px currentColor; opacity: 0.5; }
+            100% { text-shadow: 0 0 25px currentColor, 0 0 10px; opacity: 1; }
         }
 
-        /* elementos clickeables */
+        /* elementos clickeables (pistas de DJ, copas, etc) */
         .club-layer {
             position: relative;
             z-index: 20;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 18px;
+            gap: 20px;
             padding: 50px 20px 200px 20px;
             pointer-events: none;
         }
@@ -108,32 +131,34 @@
             pointer-events: auto;
             cursor: pointer;
             background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(4px);
             border-radius: 30px;
-            padding: 12px 18px;
+            padding: 15px 22px;
             text-align: center;
-            transition: transform 0.15s ease;
+            transition: all 0.2s ease;
             border: 1px solid rgba(255, 0, 255, 0.6);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            min-width: 110px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5), 0 0 20px rgba(255,0,255,0.3);
+            min-width: 120px;
         }
 
         .club-item:active {
             transform: scale(0.94);
+            background: rgba(0, 0, 0, 0.9);
         }
 
         .club-emoji {
-            font-size: 55px;
+            font-size: 60px;
             display: block;
+            filter: drop-shadow(0 0 8px #ff44ff);
         }
 
         .club-name {
-            font-size: 10px;
+            font-size: 11px;
             color: #ffccff;
-            margin-top: 6px;
+            margin-top: 8px;
             font-weight: bold;
             background: rgba(0,0,0,0.6);
-            padding: 3px 6px;
+            padding: 4px 8px;
             border-radius: 20px;
         }
 
@@ -142,30 +167,31 @@
             bottom: 15px;
             margin: 15px;
             background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(16px);
+            backdrop-filter: blur(8px);
             border-radius: 35px;
-            padding: 14px 18px;
+            padding: 16px 20px;
             color: #fff0ff;
-            font-size: clamp(0.85rem, 4vw, 1.05rem);
+            font-size: clamp(0.85rem, 4vw, 1.1rem);
             font-weight: 600;
             text-align: center;
             border: 1px solid rgba(255, 0, 255, 0.7);
+            box-shadow: 0 0 30px rgba(255,0,200,0.3);
             z-index: 45;
             max-height: 30vh;
             overflow-y: auto;
-            line-height: 1.4;
+            line-height: 1.45;
         }
 
         .poem-area {
             background: rgba(0, 0, 0, 0.9);
             border-radius: 30px;
-            padding: 12px 16px;
+            padding: 14px 18px;
             margin-top: 8px;
             white-space: pre-line;
-            font-size: clamp(0.8rem, 3.5vw, 0.93rem);
+            font-size: clamp(0.8rem, 3.5vw, 0.95rem);
             max-height: 32vh;
             overflow-y: auto;
-            line-height: 1.45;
+            line-height: 1.5;
             border: 1px solid rgba(255, 0, 255, 0.6);
             color: #ffe0ff;
         }
@@ -176,30 +202,31 @@
             right: 20px;
             float: right;
             background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            padding: 5px 18px;
+            backdrop-filter: blur(10px);
+            padding: 6px 20px;
             border-radius: 50px;
             font-weight: bold;
             color: #ff66ff;
             font-family: monospace;
-            font-size: 0.95rem;
+            font-size: 1rem;
             z-index: 50;
             border: 1px solid #ff44ff;
-            margin: 12px;
+            margin: 15px;
             display: inline-block;
+            box-shadow: 0 0 15px rgba(255,0,255,0.3);
         }
 
         .flex-header {
             display: flex;
             justify-content: flex-end;
-            padding: 8px 20px 0 0;
+            padding: 10px 20px 0 0;
         }
 
         @media (max-width: 780px) {
-            .club-emoji { font-size: 45px; }
-            .club-item { padding: 8px 12px; min-width: 85px; }
-            .club-name { font-size: 8px; }
-            .ryoko-neon { font-size: 16px; letter-spacing: 2px; }
+            .club-emoji { font-size: 50px; }
+            .club-item { padding: 10px 15px; min-width: 90px; }
+            .club-name { font-size: 9px; }
+            .ryoko-neon { font-size: 18px; letter-spacing: 2px; }
         }
     </style>
 </head>
@@ -221,12 +248,18 @@
 
 <script>
     (function() {
+        // 6 elementos de club
         const clubEmojis = ["🎧", "🍾", "🎤", "💃", "🔊", "🍹"];
         const clubNames = [
-            "DJ Set + Auriculares", "Botella de Champagne", "Micrófono + Rave",
-            "Pista de Baile", "Parlantes + Bass", "Cóctel + After Party"
+            "DJ Set + Auriculares", 
+            "Botella de Champagne", 
+            "Micrófono + Rave", 
+            "Pista de Baile", 
+            "Parlantes + Bass", 
+            "Cóctel + After Party"
         ];
         
+        // Mensajes de club 🔥
         const clubMessages = [
             "🎧 Ryoko, cuando entras al club, el DJ cambia la música solo para ti. Tus caderas se mueven como el ritmo de la noche, y yo pierdo el control. Quiero sentir tu calor entre la multitud, tus labios cerca de los míos. Eres mi canción favorita, la que pongo en repeat. 💜🔥",
             "🍾 Esta botella brinda por nosotros, Ryoko. Tu risa es más embriagadora que el mejor champán. Cuando bailas, las luces se apagan para verte mejor. Me encanta cómo me miras desde la pista, sabiendo que esta noche soy solo tuyo. TE AMO en cada copa vacía. 🥂💋",
@@ -274,62 +307,75 @@ eres mi fiesta infinita, mi cielo del infierno.
         const container = document.getElementById("clubWorld");
         const bgContainer = document.getElementById("clubBg");
 
-        // Fondo OPTIMIZADO - solo 30 elementos en total (antes 118)
+        // Crear fondo de club con luces, RYOKO neon, etc
         function createClubBackground() {
             bgContainer.innerHTML = "";
             
-            // Luces de discoteca - solo 20 (antes 60)
-            for(let i = 0; i < 20; i++) {
+            // Luces de discoteca (puntos flotantes)
+            for(let i = 0; i < 60; i++) {
                 const light = document.createElement("div");
                 light.className = "disco-light";
                 light.style.left = Math.random() * 100 + "%";
                 light.style.top = Math.random() * 100 + "%";
-                light.style.animationDuration = 0.4 + Math.random() * 0.6 + "s";
+                light.style.animationDuration = 0.3 + Math.random() * 0.7 + "s";
                 light.style.animationDelay = Math.random() * 2 + "s";
-                light.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 65%)`;
+                light.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
                 bgContainer.appendChild(light);
             }
             
-            // TEXTOS RYOKO NEON - solo 12 textos grandes y visibles (antes 35)
+            // Líneas neon horizontales
+            for(let i = 0; i < 8; i++) {
+                const line = document.createElement("div");
+                line.className = "neon-line";
+                line.style.width = "100%";
+                line.style.top = (8 + i * 12) + "%";
+                line.style.left = "0";
+                line.style.animationDelay = i * 0.5 + "s";
+                bgContainer.appendChild(line);
+            }
+            
+            // TEXTOS RYOKO NEON - 30 textos locos
             const crazyTexts = [
                 "🔥 RYOKO 🔥", "💜 RYOKO 💜", "🎧 RYOKO 🎤", "✨ RYOKO ✨", 
-                "🌙 RYOKO 💕", "🍾 RYOKO 🥂", "🎶 RYOKO 🎶", "💃 RYOKO 🔥",
-                "RYOKO CLUB", "RYOKO NIGHT"
+                "🌙 RYOKO 💕", "🍾 RYOKO 🥂", "⭐ RYOKO ⭐", "💖 RYOKO 💖",
+                "🎶 RYOKO 🎶", "🔥💜 RYOKO 🔥💜", "💃 RYOKO 🕺", "🎧🔥 RYOKO 🔥🎧",
+                "RYOKO 🔥 CLUB", "RYOKO 💜 NOCHE", "🎤 RYOKO 🎤", "🍹 RYOKO 🍾"
             ];
             
-            const neonColors = ["#ff00ff", "#00ffff", "#ff44ff", "#ff66cc", "#ff00aa", "#ffcc00"];
+            const neonColors = ["#ff00ff", "#00ffff", "#ff44ff", "#ff66cc", "#ff00aa", "#ff3366", "#66ff33", "#ffcc00"];
             
-            for(let i = 0; i < 12; i++) {
+            for(let i = 0; i < 35; i++) {
                 const ryokoDiv = document.createElement("div");
                 ryokoDiv.className = "ryoko-neon";
-                ryokoDiv.textContent = crazyTexts[i % crazyTexts.length];
-                ryokoDiv.style.left = (5 + Math.random() * 90) + "%";
-                ryokoDiv.style.top = (5 + Math.random() * 85) + "%";
-                ryokoDiv.style.fontSize = (i < 4 ? 28 : 22) + Math.random() * 10 + "px";
+                ryokoDiv.textContent = crazyTexts[Math.floor(Math.random() * crazyTexts.length)];
+                ryokoDiv.style.left = Math.random() * 100 + "%";
+                ryokoDiv.style.top = Math.random() * 100 + "%";
+                ryokoDiv.style.fontSize = 20 + Math.random() * 28 + "px";
                 ryokoDiv.style.color = neonColors[Math.floor(Math.random() * neonColors.length)];
-                ryokoDiv.style.transform = `rotate(${Math.random() * 25 - 12}deg)`;
-                ryokoDiv.style.animationDuration = 0.8 + Math.random() * 1.2 + "s";
-                ryokoDiv.style.fontFamily = "'Impact', 'Arial Black', sans-serif";
+                ryokoDiv.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
+                ryokoDiv.style.animationDuration = 1 + Math.random() * 2 + "s";
+                ryokoDiv.style.fontWeight = "bold";
+                ryokoDiv.style.fontFamily = "'Impact', 'Arial Black', monospace";
                 bgContainer.appendChild(ryokoDiv);
             }
             
-            // Corazones neon - solo 8 (antes 15)
-            const hearts = ["💜", "🎧", "💕", "🍾", "🔥", "💖"];
-            for(let i = 0; i < 8; i++) {
+            // Corazones neon flotantes
+            const hearts = ["💜", "🎧", "💕", "🍾", "🔥", "💖", "🎶", "🍹"];
+            for(let i = 0; i < 15; i++) {
                 const heart = document.createElement("div");
                 heart.className = "disco-light";
                 heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-                heart.style.fontSize = 24 + Math.random() * 20 + "px";
+                heart.style.fontSize = 26 + Math.random() * 24 + "px";
                 heart.style.left = Math.random() * 100 + "%";
                 heart.style.top = Math.random() * 100 + "%";
-                heart.style.animationDuration = 0.6 + Math.random() * 1 + "s";
+                heart.style.animationDuration = 0.8 + Math.random() * 1.5 + "s";
                 heart.style.backgroundColor = "transparent";
                 heart.style.color = neonColors[Math.floor(Math.random() * neonColors.length)];
                 heart.style.width = "auto";
                 heart.style.height = "auto";
                 heart.style.background = "none";
                 heart.style.boxShadow = "none";
-                heart.style.textShadow = "0 0 12px currentColor";
+                heart.style.textShadow = "0 0 15px currentColor";
                 bgContainer.appendChild(heart);
             }
         }
@@ -368,7 +414,7 @@ eres mi fiesta infinita, mi cielo del infierno.
             element.style.transform = "scale(0.92)";
             element.style.opacity = "0.7";
             element.style.pointerEvents = "none";
-            setTimeout(() => { element.style.transform = ""; }, 150);
+            setTimeout(() => { element.style.transform = ""; }, 200);
             
             if(itemsClicked === 6 && !poemRevealed) {
                 revealClubPoem();
@@ -383,28 +429,28 @@ eres mi fiesta infinita, mi cielo del infierno.
             poemDisplayDiv.innerHTML = `<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-style: normal; font-weight: 500; text-align: center; line-height: 1.5; font-size: 0.85rem;">${clubPoem.replace(/\n/g, '<br>')}</div><br><div style="text-align:center; font-size:0.9rem;">🎧 A + R = FOREVER EN CADA BEAT 🔥<br>💜 TE AMO RYOKO, MI REINA DEL CLUB 💜</div>`;
             counterSpan.style.background = "#aa33ffdd";
             counterSpan.innerHTML = "🎧 CLUB COMPLETO 🔥";
-            for(let i=0;i<15;i++) {
-                setTimeout(() => createClubSpark(), i*80);
+            for(let i=0;i<25;i++) {
+                setTimeout(() => createClubSpark(), i*70);
             }
         }
 
         function createClubSpark() {
             const spark = document.createElement("div");
-            spark.innerText = ["🎧💜","🔥💕","🍾❤️","🎤💖"][Math.floor(Math.random()*4)];
+            spark.innerText = ["🎧💜","🔥💕","🍾❤️","🎤💖","🔊✨"][Math.floor(Math.random()*5)];
             spark.style.position = "absolute";
-            spark.style.fontSize = 24 + Math.random() * 24 + "px";
+            spark.style.fontSize = 26 + Math.random() * 28 + "px";
             spark.style.left = Math.random() * 100 + "%";
             spark.style.bottom = "0px";
             spark.style.pointerEvents = "none";
             spark.style.zIndex = "200";
-            spark.style.opacity = "0.8";
-            spark.style.transition = "all 2.5s ease-out";
+            spark.style.opacity = "0.85";
+            spark.style.transition = "all 3s ease-out";
             container.appendChild(spark);
             requestAnimationFrame(() => {
-                spark.style.transform = `translateY(-${window.innerHeight * 0.7}px) rotate(12deg)`;
+                spark.style.transform = `translateY(-${window.innerHeight * 0.7}px) rotate(15deg)`;
                 spark.style.opacity = "0";
             });
-            setTimeout(() => spark.remove(), 2500);
+            setTimeout(() => spark.remove(), 3000);
         }
 
         function addClubRipple(e) {
@@ -414,18 +460,18 @@ eres mi fiesta infinita, mi cielo del infierno.
             ripple.style.position = "absolute";
             ripple.style.left = (e.clientX - rect.left) + "px";
             ripple.style.top = (e.clientY - rect.top) + "px";
-            ripple.style.fontSize = "38px";
+            ripple.style.fontSize = "42px";
             ripple.style.pointerEvents = "none";
             ripple.style.zIndex = "200";
             ripple.style.transform = "translate(-50%, -50%)";
-            ripple.style.opacity = "0.8";
+            ripple.style.opacity = "0.9";
             ripple.style.whiteSpace = "nowrap";
-            ripple.style.transition = "all 0.5s ease-out";
+            ripple.style.transition = "all 0.6s ease-out";
             container.appendChild(ripple);
             setTimeout(() => {
                 ripple.style.opacity = "0";
-                ripple.style.transform = "translate(-50%, -50%) scale(1.5)";
-                setTimeout(() => ripple.remove(), 600);
+                ripple.style.transform = "translate(-50%, -50%) scale(1.6)";
+                setTimeout(() => ripple.remove(), 700);
             }, 30);
         }
 
