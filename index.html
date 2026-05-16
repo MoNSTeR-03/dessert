@@ -317,7 +317,7 @@ eres mi fiesta infinita, mi cielo del infierno.
                 light.className = "disco-light";
                 light.style.left = Math.random() * 100 + "%";
                 light.style.top = Math.random() * 100 + "%";
-                light.style.animationDuration = 0.3 + Math.random() * 0.7 + "s";
+                light.style.animationDuration = 1 + Math.random() * 1.8 + "s";
                 light.style.animationDelay = Math.random() * 2 + "s";
                 light.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
                 bgContainer.appendChild(light);
@@ -344,7 +344,7 @@ eres mi fiesta infinita, mi cielo del infierno.
             
             const neonColors = ["#ff00ff", "#00ffff", "#ff44ff", "#ff66cc", "#ff00aa", "#ff3366", "#66ff33", "#ffcc00"];
             
-            for(let i = 0; i < 35; i++) {
+            for(let i = 0; i < 25; i++) {
                 const ryokoDiv = document.createElement("div");
                 ryokoDiv.className = "ryoko-neon";
                 ryokoDiv.textContent = crazyTexts[Math.floor(Math.random() * crazyTexts.length)];
