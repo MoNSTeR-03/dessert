@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>🎧 CLUB WORLD - RYOKO 🔥</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            padding: 12px;
+        }
+
+        .club-world {
+            position: relative;
+            width: 1400px;
+            max-width: 100%;
+            height: 90vh;
+            min-height: 620px;
+            background: radial-gradient(ellipse at 30% 40%, #1a0a2e, #0a0a1a, #050510);
+            border-radius: 48px 48px 32px 32px;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.8), inset 0 0 30px rgba(255,0,255,0.1);
+            overflow-y: auto;
+            overflow-x: hidden;
+            cursor: pointer;
+            border: 2px solid rgba(255, 0, 255, 0.4);
+            scrollbar-width: thin;
+            animation: bgPulse 0.5s infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { box-shadow: 0 0 20px rgba(255,0,255,0.2), inset 0 0 10px rgba(255,0,255,0.1); }
+            100% { box-shadow: 0 0 50px rgba(255,0,200,0.5), inset 0 0 30px rgba(255,0,200,0.2); }
+        }
+
+        /* Fondo discoteca */
+        .club-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* Luces de discoteca */
+        .disco-light {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #ff00ff, #00ffff, #ffff00);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: discoFlash 1s infinite alternate;
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        @keyframes discoFlash {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 0.9; transform: scale(1.4); }
+        }
+
+        .neon-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
+            animation: neonMove 3s infinite linear;
+        }
+
+        @keyframes neonMove {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        /* RYOKO textos locos en neon */
+        .ryoko-neon {
+            position: absolute;
+            font-weight: bold;
+            white-space: nowrap;
+            pointer-events: none;
+            animation: neonPulse 1.5s infinite alternate;
+            text-shadow: 0 0 5px currentColor;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            letter-spacing: 4px;
+        }
+
+        @keyframes neonPulse {
+            0% { text-shadow: 0 0 5px currentColor; opacity: 0.5; }
+            100% { text-shadow: 0 0 25px currentColor, 0 0 10px; opacity: 1; }
+        }
+
+        /* elementos clickeables (pistas de DJ, copas, etc) */
+        .club-layer {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 50px 20px 200px 20px;
+            pointer-events: none;
+        }
+
+        .club-item {
+            pointer-events: auto;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 15px 22px;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 0, 255, 0.6);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5), 0 0 20px rgba(255,0,255,0.3);
+            min-width: 120px;
+        }
+
+        .club-item:active {
+            transform: scale(0.94);
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .club-emoji {
+            font-size: 60px;
+            display: block;
+            filter: drop-shadow(0 0 8px #ff44ff);
+        }
+
+        .club-name {
+            font-size: 11px;
+            color: #ffccff;
+            margin-top: 8px;
+            font-weight: bold;
+            background: rgba(0,0,0,0.6);
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+
+        .message-panel {
+            position: sticky;
+            bottom: 15px;
+            margin: 15px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 35px;
+            padding: 16px 20px;
+            color: #fff0ff;
+            font-size: clamp(0.85rem, 4vw, 1.1rem);
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid rgba(255, 0, 255, 0.7);
+            box-shadow: 0 0 30px rgba(255,0,200,0.3);
+            z-index: 45;
+            max-height: 30vh;
+            overflow-y: auto;
+            line-height: 1.45;
+        }
+
+        .poem-area {
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 30px;
+            padding: 14px 18px;
+            margin-top: 8px;
+            white-space: pre-line;
+            font-size: clamp(0.8rem, 3.5vw, 0.95rem);
+            max-height: 32vh;
+            overflow-y: auto;
+            line-height: 1.5;
+            border: 1px solid rgba(255, 0, 255, 0.6);
+            color: #ffe0ff;
+        }
+
+        .counter-badge {
+            position: sticky;
+            top: 15px;
+            right: 20px;
+            float: right;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #ff66ff;
+            font-family: monospace;
+            font-size: 1rem;
+            z-index: 50;
+            border: 1px solid #ff44ff;
+            margin: 15px;
+            display: inline-block;
+            box-shadow: 0 0 15px rgba(255,0,255,0.3);
+        }
+
+        .flex-header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 20px 0 0;
+        }
+
+        @media (max-width: 780px) {
+            .club-emoji { font-size: 50px; }
+            .club-item { padding: 10px 15px; min-width: 90px; }
+            .club-name { font-size: 9px; }
+            .ryoko-neon { font-size: 18px; letter-spacing: 2px; }
+        }
+    </style>
+</head>
+<body>
+<div class="club-world" id="clubWorld">
+    <div class="club-bg" id="clubBg"></div>
+
+    <div class="flex-header">
+        <div class="counter-badge" id="clubCounter">🎧 0 / 6 🔥</div>
+    </div>
+
+    <div class="club-layer" id="clubLayer"></div>
+
+    <div class="message-panel" id="messagePanel">
+        <div class="romantic-text" id="msgText">🎧🔥 Entra al CLUB... cada pista, cada copa, cada luz esconde un mensaje ardiente para ti, Ryoko 💜✨🎶</div>
+        <div id="poemDisplay" style="display: none;" class="poem-area"></div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // 6 elementos de club
+        const clubEmojis = ["🎧", "🍾", "🎤", "💃", "🔊", "🍹"];
+        const clubNames = [
+            "DJ Set + Auriculares", 
+            "Botella de Champagne", 
+            "Micrófono + Rave", 
+            "Pista de Baile", 
+            "Parlantes + Bass", 
+            "Cóctel + After Party"
+        ];
+        
+        // Mensajes de club 🔥
+        const clubMessages = [
+            "🎧 Ryoko, cuando entras al club, el DJ cambia la música solo para ti. Tus caderas se mueven como el ritmo de la noche, y yo pierdo el control. Quiero sentir tu calor entre la multitud, tus labios cerca de los míos. Eres mi canción favorita, la que pongo en repeat. 💜🔥",
+            "🍾 Esta botella brinda por nosotros, Ryoko. Tu risa es más embriagadora que el mejor champán. Cuando bailas, las luces se apagan para verte mejor. Me encanta cómo me miras desde la pista, sabiendo que esta noche soy solo tuyo. TE AMO en cada copa vacía. 🥂💋",
+            "🎤 Ryoko, toma el micrófono y cántame al oído. Tu voz me pone la piel de gallina, tus gemidos son mi canción favorita. El club entero se para cuando tú pasas. Eres la estrella de esta fiesta, mi reina del after. Te adoro mi alma, morena de fuego. 🔥🎶",
+            "💃 Cuando bailas, Ryoko, el piso tiembla. Tus caderas son un terremoto perfecto. Me pierdo en tu movimiento, en tu sudor, en tu sonrisa pícara. Quiero pegarme a ti como un beat pegajoso. Eres mi ritmo, mi bajo, mi subidón. 💜🔥",
+            "🔊 Ryoko, sube el volumen que quiero que todo el club sepa que eres mía. Tus manos recorren mi pecho mientras la música retumba. Eres mi subwoofer favorito, la que hace vibrar mi alma. Esta noche no quiero irme a casa sin sentirte cerca. A+R = FOREVER 🔥🎧",
+            "🍹 Este cóctel tiene tu nombre, Ryoko: dulce, fuerte y adictivo. Una mezcla de fresa y veneno que me tiene loco. Cuando la noche termina, solo quiero seguir bailando contigo. Eres mi after party eterna, mi vicio favorito. TE AMO con toda la luz del club. 💜🍾"
+        ];
+
+        const clubPoem = `🎧🔥 RYOKO, MI CLUB ETERNO 🔥🎧
+
+La noche cae, las luces estallan,
+y tú apareces más brillante que todos los lasers.
+Tus caderas dibujan el ritmo perfecto,
+tus labios rojos como el vino tinto en el after.
+
+Ryoko, el DJ sabe que eres mi musa,
+cada beat late por ti, cada nota te seduce.
+Cuando cierras los ojos y te dejas llevar,
+el tiempo se detiene, solo tú y yo podemos bailar.
+
+Tus manos en mi espalda son pura electricidad,
+tu respiración caliente es mi nueva canción de ciudad.
+La pista arde cuando pasas rozando mi piel,
+eres el subidón más dulce, mi adicción, mi miel.
+
+Las botellas vacías brindan por nuestro amor loco,
+los parlantes tiemblan al escuchar nuestro poco a poco.
+Ryoko, me encanta cómo dominas la pista,
+y cómo en secreto eres solo mía, mi conquista.
+
+A + R = FOREVER, lo grabo con neón,
+en cada pared del club, en cada rincón.
+Te adoro más que a la noche y su calor eterno,
+eres mi fiesta infinita, mi cielo del infierno.
+
+🎧 TE AMO RYOKO, MI REINA DE LA NOCHE 💜
+🔥 TE ADORO MI ALMA, ERES MI MEJOR DERROCHE.`;
+
+        let itemsClicked = 0;
+        let poemRevealed = false;
+        const counterSpan = document.getElementById("clubCounter");
+        const msgTextDiv = document.getElementById("msgText");
+        const poemDisplayDiv = document.getElementById("poemDisplay");
+        const container = document.getElementById("clubWorld");
+        const bgContainer = document.getElementById("clubBg");
+
+        // Crear fondo de club con luces, RYOKO neon, etc
+        function createClubBackground() {
+            bgContainer.innerHTML = "";
+            
+            // Luces de discoteca (puntos flotantes)
+            for(let i = 0; i < 60; i++) {
+                const light = document.createElement("div");
+                light.className = "disco-light";
+                light.style.left = Math.random() * 100 + "%";
+                light.style.top = Math.random() * 100 + "%";
+                light.style.animationDuration = 0.3 + Math.random() * 0.7 + "s";
+                light.style.animationDelay = Math.random() * 2 + "s";
+                light.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+                bgContainer.appendChild(light);
+            }
+            
+            // Líneas neon horizontales
+            for(let i = 0; i < 8; i++) {
+                const line = document.createElement("div");
+                line.className = "neon-line";
+                line.style.width = "100%";
+                line.style.top = (8 + i * 12) + "%";
+                line.style.left = "0";
+                line.style.animationDelay = i * 0.5 + "s";
+                bgContainer.appendChild(line);
+            }
+            
+            // TEXTOS RYOKO NEON - 30 textos locos
+            const crazyTexts = [
+                "🔥 RYOKO 🔥", "💜 RYOKO 💜", "🎧 RYOKO 🎤", "✨ RYOKO ✨", 
+                "🌙 RYOKO 💕", "🍾 RYOKO 🥂", "⭐ RYOKO ⭐", "💖 RYOKO 💖",
+                "🎶 RYOKO 🎶", "🔥💜 RYOKO 🔥💜", "💃 RYOKO 🕺", "🎧🔥 RYOKO 🔥🎧",
+                "RYOKO 🔥 CLUB", "RYOKO 💜 NOCHE", "🎤 RYOKO 🎤", "🍹 RYOKO 🍾"
+            ];
+            
+            const neonColors = ["#ff00ff", "#00ffff", "#ff44ff", "#ff66cc", "#ff00aa", "#ff3366", "#66ff33", "#ffcc00"];
+            
+            for(let i = 0; i < 35; i++) {
+                const ryokoDiv = document.createElement("div");
+                ryokoDiv.className = "ryoko-neon";
+                ryokoDiv.textContent = crazyTexts[Math.floor(Math.random() * crazyTexts.length)];
+                ryokoDiv.style.left = Math.random() * 100 + "%";
+                ryokoDiv.style.top = Math.random() * 100 + "%";
+                ryokoDiv.style.fontSize = 20 + Math.random() * 28 + "px";
+                ryokoDiv.style.color = neonColors[Math.floor(Math.random() * neonColors.length)];
+                ryokoDiv.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
+                ryokoDiv.style.animationDuration = 1 + Math.random() * 2 + "s";
+                ryokoDiv.style.fontWeight = "bold";
+                ryokoDiv.style.fontFamily = "'Impact', 'Arial Black', monospace";
+                bgContainer.appendChild(ryokoDiv);
+            }
+            
+            // Corazones neon flotantes
+            const hearts = ["💜", "🎧", "💕", "🍾", "🔥", "💖", "🎶", "🍹"];
+            for(let i = 0; i < 15; i++) {
+                const heart = document.createElement("div");
+                heart.className = "disco-light";
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.fontSize = 26 + Math.random() * 24 + "px";
+                heart.style.left = Math.random() * 100 + "%";
+                heart.style.top = Math.random() * 100 + "%";
+                heart.style.animationDuration = 0.8 + Math.random() * 1.5 + "s";
+                heart.style.backgroundColor = "transparent";
+                heart.style.color = neonColors[Math.floor(Math.random() * neonColors.length)];
+                heart.style.width = "auto";
+                heart.style.height = "auto";
+                heart.style.background = "none";
+                heart.style.boxShadow = "none";
+                heart.style.textShadow = "0 0 15px currentColor";
+                bgContainer.appendChild(heart);
+            }
+        }
+
+        function createClubItems() {
+            const layer = document.getElementById("clubLayer");
+            layer.innerHTML = "";
+            for(let i = 0; i < 6; i++) {
+                const card = document.createElement("div");
+                card.className = "club-item";
+                card.setAttribute("data-idx", i);
+                card.innerHTML = `
+                    <div class="club-emoji">${clubEmojis[i]}</div>
+                    <div class="club-name">${clubNames[i]}</div>
+                `;
+                card.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    handleClubClick(i, card);
+                });
+                layer.appendChild(card);
+            }
+        }
+
+        function handleClubClick(idx, element) {
+            if(element.getAttribute("data-clicked") === "true") {
+                msgTextDiv.innerHTML = `🎧 Ryoko, ya abriste esta pista... prueba otro elemento del club 🔥💜`;
+                return;
+            }
+            element.setAttribute("data-clicked", "true");
+            itemsClicked++;
+            counterSpan.innerHTML = `🎧 ${itemsClicked} / 6 🔥`;
+            
+            const clubMsg = clubMessages[idx];
+            msgTextDiv.innerHTML = `🔥🎶✨ ${clubMsg} ✨🎶🔥`;
+            
+            element.style.transform = "scale(0.92)";
+            element.style.opacity = "0.7";
+            element.style.pointerEvents = "none";
+            setTimeout(() => { element.style.transform = ""; }, 200);
+            
+            if(itemsClicked === 6 && !poemRevealed) {
+                revealClubPoem();
+            }
+        }
+
+        function revealClubPoem() {
+            if(poemRevealed) return;
+            poemRevealed = true;
+            msgTextDiv.style.display = "none";
+            poemDisplayDiv.style.display = "block";
+            poemDisplayDiv.innerHTML = `<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-style: normal; font-weight: 500; text-align: center; line-height: 1.5; font-size: 0.85rem;">${clubPoem.replace(/\n/g, '<br>')}</div><br><div style="text-align:center; font-size:0.9rem;">🎧 A + R = FOREVER EN CADA BEAT 🔥<br>💜 TE AMO RYOKO, MI REINA DEL CLUB 💜</div>`;
+            counterSpan.style.background = "#aa33ffdd";
+            counterSpan.innerHTML = "🎧 CLUB COMPLETO 🔥";
+            for(let i=0;i<25;i++) {
+                setTimeout(() => createClubSpark(), i*70);
+            }
+        }
+
+        function createClubSpark() {
+            const spark = document.createElement("div");
+            spark.innerText = ["🎧💜","🔥💕","🍾❤️","🎤💖","🔊✨"][Math.floor(Math.random()*5)];
+            spark.style.position = "absolute";
+            spark.style.fontSize = 26 + Math.random() * 28 + "px";
+            spark.style.left = Math.random() * 100 + "%";
+            spark.style.bottom = "0px";
+            spark.style.pointerEvents = "none";
+            spark.style.zIndex = "200";
+            spark.style.opacity = "0.85";
+            spark.style.transition = "all 3s ease-out";
+            container.appendChild(spark);
+            requestAnimationFrame(() => {
+                spark.style.transform = `translateY(-${window.innerHeight * 0.7}px) rotate(15deg)`;
+                spark.style.opacity = "0";
+            });
+            setTimeout(() => spark.remove(), 3000);
+        }
+
+        function addClubRipple(e) {
+            const rect = container.getBoundingClientRect();
+            const ripple = document.createElement("div");
+            ripple.innerText = "🎧🔥💜";
+            ripple.style.position = "absolute";
+            ripple.style.left = (e.clientX - rect.left) + "px";
+            ripple.style.top = (e.clientY - rect.top) + "px";
+            ripple.style.fontSize = "42px";
+            ripple.style.pointerEvents = "none";
+            ripple.style.zIndex = "200";
+            ripple.style.transform = "translate(-50%, -50%)";
+            ripple.style.opacity = "0.9";
+            ripple.style.whiteSpace = "nowrap";
+            ripple.style.transition = "all 0.6s ease-out";
+            container.appendChild(ripple);
+            setTimeout(() => {
+                ripple.style.opacity = "0";
+                ripple.style.transform = "translate(-50%, -50%) scale(1.6)";
+                setTimeout(() => ripple.remove(), 700);
+            }, 30);
+        }
+
+        createClubBackground();
+        createClubItems();
+        
+        container.addEventListener("click", (e) => {
+            if(e.target === container || e.target.classList.contains("club-bg")) {
+                addClubRipple(e);
+            }
+        });
+        container.addEventListener("touchstart", (e) => {
+            if(e.target === container || e.target.classList.contains("club-bg")) {
+                addClubRipple(e.touches[0]);
+            }
+        });
+    })();
+</script>
+</body>
+</html>
